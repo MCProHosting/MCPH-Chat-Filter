@@ -47,13 +47,7 @@
     <repositories>
         <repository>
             <id>spigotmc-snapshots</id>
-            <url>http://repo.md-5.net/content/repositories/snapshots</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <url>http://repo.md-5.net</url>
         </repository>
     </repositories>
 
@@ -61,7 +55,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.6.4-R1.1-SNAPSHOT</version>
+            <version>LATEST</version>
         </dependency>
     </dependencies>
 </project>
