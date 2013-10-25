@@ -16,7 +16,7 @@ public class MCPHChatFilter extends JavaPlugin {
 
 	}
 
-	public Plugin getPlugin() {
+	public static Plugin getPlugin() {
 		return plugin;
 	}
 
