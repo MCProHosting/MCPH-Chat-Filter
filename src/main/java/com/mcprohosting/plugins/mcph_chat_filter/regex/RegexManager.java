@@ -2,13 +2,27 @@ package com.mcprohosting.plugins.mcph_chat_filter.regex;
 
 import com.mcprohosting.plugins.mcph_chat_filter.MCPHChatFilter;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class RegexManager {
 
-	public File getRulesFile() {
+	private CopyOnWriteArrayList<String> rules;
+	private ConcurrentHashMap<String, Pattern> patterns;
+
+	public RegexManager() {
+		this.rules = new CopyOnWriteArrayList<String>();
+		this.patterns = new ConcurrentHashMap<String, Pattern>();
+
+		loadRules(getRulesFile());
+	}
+
+	private File getRulesFile() {
 		File folder = MCPHChatFilter.getPlugin().getDataFolder();
 		File file;
 
@@ -44,6 +58,89 @@ public class RegexManager {
 			}
 		}
 		return file;
+	}
+
+	private void loadRules(File file) {
+		try {
+			BufferedReader input = new BufferedReader(new FileReader(file));
+			String line = null;
+			while ((line = input.readLine()) != null) {
+				line = line.trim();
+				if (!line.matches("^#.*") && !line.matches("")) {
+					rules.add(line);
+					if (line.startsWith("match ") || line.startsWith("catch ") || line.startsWith("replace ") || line.startsWith("rewrite ")) {
+						String[] parts = line.split(" ", 2);
+						compilePattern(parts[1]);
+					}
+				}
+			}
+			input.close();
+		} catch (FileNotFoundException e) {
+			MCPHChatFilter.getPlugin().getLogger().warning("Error reading the config file '" + file.getName() + "': " + e.getLocalizedMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void compilePattern(String rule) {
+		if (patterns.get(rule) == null) {
+			try {
+				Pattern pattern = Pattern.compile(rule, Pattern.CASE_INSENSITIVE);
+				patterns.put(rule, pattern);
+				MCPHChatFilter.getPlugin().getLogger().fine("Successfully compiled regex: " + rule);
+			} catch (PatternSyntaxException e) {
+				MCPHChatFilter.getPlugin().getLogger().warning("Failed to compile regex: " + rule);
+				MCPHChatFilter.getPlugin().getLogger().warning(e.getMessage());
+			} catch (Exception e) {
+				MCPHChatFilter.getPlugin().getLogger().severe("Unexpected error while compiling expression '" + rule + "'");
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private boolean matchPattern(String msg, String rule) {
+		Pattern pattern = patterns.get(rule);
+		if (pattern == null) {
+			return false;
+		}
+		Matcher matcher = pattern.matcher(msg);
+		return matcher.find();
+	}
+
+	private String replacePattern(String msg, String rule, String replacement) {
+		Pattern pattern = patterns.get(rule);
+		if (pattern == null) {
+			return msg;
+		}
+		Matcher matcher = pattern.matcher(msg);
+		return matcher.replaceAll(replacement);
+	}
+
+	private String replacePatternLower(String msg, String rule) {
+		String replacement = msg;
+		Matcher matcher = Pattern.compile(rule).matcher(replacement);
+		StringBuilder builder = new StringBuilder();
+		int last = 0;
+
+		while (matcher.find()) {
+			builder.append(replacement.substring(last, matcher.start()));
+			builder.append(matcher.group(0).toLowerCase());
+			last = matcher.end();
+		}
+		builder.append(replacement.substring(last));
+		return builder.toString();
+	}
+
+	private String replacePatternRandom(String msg, String rule, String replacement) {
+		Pattern pattern = patterns.get(rule);
+		if (pattern == null) {
+			return msg;
+		}
+		Matcher matcher = pattern.matcher(msg);
+		String[] rand = replacement.split("\\|");
+		Random random = new Random();
+		int randInt = random.nextInt(rand.length);
+		return matcher.replaceAll(rand[randInt]);
 	}
 
 }
