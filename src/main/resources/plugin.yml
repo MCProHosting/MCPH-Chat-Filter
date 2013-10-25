@@ -1,0 +1,7 @@
+name: MCPH-Chat-Filter
+version: 0.0.1
+description: A regex based chat filter designed to be user friendly while providing robust functionality.
+author: Favorlock
+
+main: com.mcprohosting.plugins.mcph_chat_filter.MCPHChatFilter
+database: false
