@@ -3,6 +3,9 @@ package com.mcprohosting.plugins.mcph_chat_filter.regex;
 import com.mcprohosting.plugins.mcph_chat_filter.MCPHChatFilter;
 
 import java.io.*;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -98,7 +101,7 @@ public class RegexManager {
 		}
 	}
 
-	private boolean matchPattern(String msg, String rule) {
+	public boolean matchPattern(String msg, String rule) {
 		Pattern pattern = patterns.get(rule);
 		if (pattern == null) {
 			return false;
@@ -107,7 +110,7 @@ public class RegexManager {
 		return matcher.find();
 	}
 
-	private String replacePattern(String msg, String rule, String replacement) {
+	public String replacePattern(String msg, String rule, String replacement) {
 		Pattern pattern = patterns.get(rule);
 		if (pattern == null) {
 			return msg;
@@ -116,7 +119,7 @@ public class RegexManager {
 		return matcher.replaceAll(replacement);
 	}
 
-	private String replacePatternLower(String msg, String rule) {
+	public String replacePatternLower(String msg, String rule) {
 		String replacement = msg;
 		Matcher matcher = Pattern.compile(rule).matcher(replacement);
 		StringBuilder builder = new StringBuilder();
@@ -131,7 +134,7 @@ public class RegexManager {
 		return builder.toString();
 	}
 
-	private String replacePatternRandom(String msg, String rule, String replacement) {
+	public String replacePatternRandom(String msg, String rule, String replacement) {
 		Pattern pattern = patterns.get(rule);
 		if (pattern == null) {
 			return msg;
@@ -141,6 +144,46 @@ public class RegexManager {
 		Random random = new Random();
 		int randInt = random.nextInt(rand.length);
 		return matcher.replaceAll(rand[randInt]);
+	}
+
+	public void logToFile(String message) {
+		try {
+			File folder = MCPHChatFilter.getPlugin().getDataFolder();
+			File file = new File(folder, "mcphchatfilter.log");
+
+			if (!folder.exists()) {
+				folder.mkdir();
+			}
+
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter fileWriter = new FileWriter(file, true);
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			printWriter.println(getDate() + " " + message);
+			printWriter.flush();
+			printWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private String getDate() {
+		String string;
+		Format formatter;
+		Date date = new Date();
+		formatter = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]");
+		string = formatter.format(date);
+		return string;
+	}
+
+	public CopyOnWriteArrayList<String> getRules() {
+		return this.rules;
+	}
+
+	public ConcurrentHashMap<String, Pattern> getPatterns() {
+		return this.patterns;
 	}
 
 }

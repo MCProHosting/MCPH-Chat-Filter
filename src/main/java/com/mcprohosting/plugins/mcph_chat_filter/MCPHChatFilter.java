@@ -1,6 +1,8 @@
 package com.mcprohosting.plugins.mcph_chat_filter;
 
+import com.mcprohosting.plugins.mcph_chat_filter.listeners.PlayerListener;
 import com.mcprohosting.plugins.mcph_chat_filter.regex.RegexManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,10 +24,17 @@ public class MCPHChatFilter extends JavaPlugin {
 
 		// Initialize RegexManager
 		regexManager = new RegexManager();
+
+		// Register Listeners
+		registerListeners();
 	}
 
 	public void onDisable() {
 
+	}
+
+	private void registerListeners() {
+		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 	}
 
 	public static Plugin getPlugin() {
@@ -43,4 +52,8 @@ public class MCPHChatFilter extends JavaPlugin {
 		previousMessage.put(player, message);
 	}
 
+
+	public static RegexManager getRegexManager() {
+		return regexManager;
+	}
 }
