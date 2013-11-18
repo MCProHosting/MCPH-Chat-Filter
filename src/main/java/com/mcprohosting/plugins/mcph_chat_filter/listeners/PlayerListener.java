@@ -241,12 +241,12 @@ public class PlayerListener implements Listener {
 						valid = true;
 					}
 					if (line.matches("then debug")) {
-						System.out.println("[PwnFilter] Debug match: " + regex);
-						System.out.println("[PwnFilter] Debug original: " + event.getMessage());
-						System.out.println("[PwnFilter] Debug matched: " + matchedMsg);
-						System.out.println("[PwnFilter] Debug current: " + message);
-						System.out.println("[PwnFilter] Debug log: " + (log?"yes":"no"));
-						System.out.println("[PwnFilter] Debug deny: " + (cancel?"yes":"no"));
+						System.out.println("[MCPH-Chat-Filter] Debug match: " + regex);
+						System.out.println("[MCPH-Chat-Filter] Debug original: " + event.getMessage());
+						System.out.println("[MCPH-Chat-Filter] Debug matched: " + matchedMsg);
+						System.out.println("[MCPH-Chat-Filter] Debug current: " + message);
+						System.out.println("[MCPH-Chat-Filter] Debug log: " + (log?"yes":"no"));
+						System.out.println("[MCPH-Chat-Filter] Debug deny: " + (cancel?"yes":"no"));
 						valid = true;
 					}
 				}
