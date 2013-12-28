@@ -21,7 +21,7 @@ public class PlayerListener implements Listener {
 		pm.registerEvents(this, MCPHChatFilter.getPlugin());
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(AsyncPlayerChatEvent event) {
 		if (event.isCancelled()) {
 			return;
@@ -37,15 +37,15 @@ public class PlayerListener implements Listener {
 		String message = event.getMessage();
 
 		// Check if player has bypass spam permission
-		if (!player.hasPermission("mcf.bypass.spam")) {
+		/*if (!player.hasPermission("mcf.bypass.spam")) {
 			String previousMessage = MCPHChatFilter.getPreviousMessage(player);
 			// Check if previousMessage equals message
 			if (previousMessage.equalsIgnoreCase(message)) {
 				event.setCancelled(true);
-				return;
+                return;
 			}
 			MCPHChatFilter.setPreviousMessage(player, message);
-		}
+		}*/
 
 		// Check if player has permission to use color codes
 		if (!player.hasPermission("mcf.colors")) {
@@ -208,7 +208,7 @@ public class PlayerListener implements Listener {
 
 					// cancel
 					if (line.startsWith("then cancel ")) {
-						event.setCancelled(true);
+						cancel = true;
 					}
 
 					// Punishment stuffs start here
