@@ -21,7 +21,7 @@ public class PlayerListener implements Listener {
 		pm.registerEvents(this, MCPHChatFilter.getPlugin());
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void onChat(AsyncPlayerChatEvent event) {
 		if (event.isCancelled()) {
 			return;
