@@ -12,6 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.spigotmc:spigot:1.7.2-R0.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.gmail.favorlock:CommonUtils:0.0.1-SNAPSHOT" level="project" />
   </component>
 </module>
 

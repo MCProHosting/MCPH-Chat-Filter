@@ -5,3 +5,16 @@ author: Favorlock
 
 main: com.mcprohosting.plugins.mcph_chat_filter.MCPHChatFilter
 database: false
+
+commands:
+  addprofanity:
+    description: Add a word to the profanity list.
+    usage: /<command> <word> <severity #>
+
+permissions:
+  mcphchatfilter.bypassall:
+    description: Bypass all chat restrictions.
+    default: op
+  mcphchatfilter.addprofanity:
+    description: Allows a player to add a word to the profanity list.
+    default: op
