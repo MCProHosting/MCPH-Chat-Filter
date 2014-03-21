@@ -17,11 +17,13 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event) {
+        event.setJoinMessage(null);
         chatters.put(event.getPlayer().getName(), new Chatter());
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerQuite(PlayerQuitEvent event) {
+        event.setQuitMessage(null);
         chatters.remove(chatters.get(event.getPlayer().getName()));
     }
 
