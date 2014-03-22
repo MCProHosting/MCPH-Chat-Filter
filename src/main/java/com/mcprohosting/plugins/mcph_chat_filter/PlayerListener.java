@@ -33,19 +33,22 @@ public class PlayerListener implements Listener {
         Chatter chatter = chatters.get(event.getPlayer().getName());
 
         if (event.getPlayer().hasPermission("mcphchatfilter.bypassall") == false) {
-            if (System.currentTimeMillis() - chatter.getTimeLastMessageSent() < 10 * 1000) {
+            if (System.currentTimeMillis() - chatter.getTimeLastMessageSent() < MCPHChatFilter.getPlugin().getConf().filter_waitTime * 1000) {
                 event.getPlayer().sendMessage(FontFormat.RED + "Chat is restricted to one message per person every 10 seconds. Thank you for understanding! :D");
                 event.setCancelled(true);
+                return;
             }
 
             if (FilterUtil.failCurse(event.getMessage())) {
                 event.getPlayer().sendMessage(FontFormat.RED + "Our chat filter has detected profanity in your message. Please watch your language! :)");
                 event.setCancelled(true);
+                return;
             }
 
             if (chatter.getLastMessageSent().equalsIgnoreCase(event.getMessage())) {
                 event.getPlayer().sendMessage(FontFormat.RED + "You already sent that message. Perhaps you should try saying something new! ;)");
                 event.setCancelled(true);
+                return;
             }
         }
 

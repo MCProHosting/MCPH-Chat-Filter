@@ -24,7 +24,7 @@ public class AddProfanity implements CommandExecutor {
             return false;
         }
 
-        MCPHChatFilter.getPlugin().getConf().profanityList.put(args[0], severity);
+        MCPHChatFilter.getPlugin().getConf().filter_profanityList.put(args[0], severity);
 
         return true;
     }

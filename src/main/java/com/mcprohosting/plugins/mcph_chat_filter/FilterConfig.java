@@ -15,11 +15,12 @@ public class FilterConfig extends ConfigModel {
         CONFIG_FILE = new File(plugin.getDataFolder(), "config.yml");
     }
 
-    public ArrayList<String> approvedLinks = new ArrayList<String>() {{
+    public int filter_waitTime = 3;
+    public ArrayList<String> filter_approvedLinks = new ArrayList<String>() {{
         add("mcprohosting.com");
         add("antvenom.com");
         add("antvenom.net");
     }};
-    public Map<String, Integer> profanityList = new HashMap<String, Integer>();
+    public Map<String, Integer> filter_profanityList = new HashMap<String, Integer>();
 
 }
