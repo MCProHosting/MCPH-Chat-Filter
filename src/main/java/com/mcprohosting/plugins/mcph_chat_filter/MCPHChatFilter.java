@@ -1,50 +1,55 @@
 package com.mcprohosting.plugins.mcph_chat_filter;
 
+import com.mcprohosting.plugins.mcph_chat_filter.commands.SetChatMode;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MCPHChatFilter extends JavaPlugin {
+import java.util.HashMap;
+import java.util.Map;
 
+public class MCPHChatFilter extends JavaPlugin {
+	private static Map<String, Chatter> chatters = new HashMap<>();
+
+	private static ChatMode chatMode = ChatMode.FREE;
     private static MCPHChatFilter plugin;
-    private FilterConfig config;
 
     public void onEnable() {
         // Allow this to be accessed statically
         plugin = this;
 
-        // Initialize Config
-        try {
-            config = new FilterConfig(this);
-            config.init();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
-
         // Register commands
-        Bukkit.getPluginCommand("addprofanity").setExecutor(new AddProfanity());
+        Bukkit.getPluginCommand("setchatmode").setExecutor(new SetChatMode());
 
         // Register listeners
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
     public void onDisable() {
-        saveConf();
+
     }
 
     public static MCPHChatFilter getPlugin() {
 		return plugin;
 	}
 
-    public FilterConfig getConf() {
-        return config;
-    }
+	public ChatMode getChatMode() {
+		return this.chatMode;
+	}
 
-    public void saveConf() {
-        try {
-            config.save();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
-    }
+	public void setChatMode(ChatMode mode) {
+		this.chatMode = mode;
+
+		boolean mute = false;
+		if (this.getChatMode().equals(ChatMode.MUTED) || this.getChatMode().equals(ChatMode.SHUTUP)) {
+			mute = true;
+		}
+
+		for (Chatter chatter : this.chatters.values()) {
+			chatter.setMuted(mute);
+		}
+	}
+
+	public static Map<String, Chatter> getChatters() {
+		return chatters;
+	}
 }

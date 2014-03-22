@@ -1,20 +1,17 @@
 name: MCPH-Chat-Filter
 version: ${version}
 description: A simple chat filter for use by MCProHosting.
-author: Favorlock
+author: Matthew Salsamendi
 
 main: com.mcprohosting.plugins.mcph_chat_filter.MCPHChatFilter
 database: false
 
 commands:
-  addprofanity:
-    description: Add a word to the profanity list.
-    usage: /<command> <word> <severity #>
+  setchatmode:
+    description: Changes the level of allowed chat
+    usage: /<command> <ChatMode>
 
 permissions:
-  mcphchatfilter.bypassall:
-    description: Bypass all chat restrictions.
-    default: op
-  mcphchatfilter.addprofanity:
-    description: Allows a player to add a word to the profanity list.
+  mcphchatfilter.setchatmode:
+    description: Sets the chat mode
     default: op
