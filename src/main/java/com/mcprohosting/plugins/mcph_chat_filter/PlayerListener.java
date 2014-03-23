@@ -25,7 +25,7 @@ public class PlayerListener implements Listener {
         MCPHChatFilter.getChatters().remove(MCPHChatFilter.getChatters().get(event.getPlayer().getName()));
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         Chatter chatter = MCPHChatFilter.getChatters().get(event.getPlayer().getName());
 
@@ -91,5 +91,6 @@ public class PlayerListener implements Listener {
         chatter.setLastMessageSent(event.getMessage());
 
 		event.setMessage(CorrectGrammar.correctGrammar(event.getMessage()));
+        System.out.println(event.getMessage());
     }
 }
