@@ -80,12 +80,6 @@ public class PlayerListener implements Listener {
 				event.setCancelled(true);
 				return;
 			}
-
-			if (FilterUtil.failCaps(message)) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Your message looks like spam, please rephrase it.");
-				event.setCancelled(true);
-				return;
-			}
         }
 
         chatter.setTimeLastMessageSent(System.currentTimeMillis());
