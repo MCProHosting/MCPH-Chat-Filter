@@ -17,30 +17,11 @@ public class FilterUtil {
 			lastCharacter = curCharacter;
 		}
 
-		double percentage = Math.floor((double) occurances / message.length())*10;
-		return percentage >= 50;
+		double percentage = ((double) occurances / message.length())*100;
+		return percentage >= 50 || message.length() <= 1;
 	}
 
-	public static boolean failCaps(String message) {
-		if (message.length() >= 6) {
-			int letterCount = 0;
-			int failedCount = 0;
 
-			for (Character c : message.toCharArray()) {
-				if (Character.isLetter(c)) {
-					letterCount++;
-					if (Character.isUpperCase(c)) {
-						failedCount++;
-					}
-				}
-			}
-
-			double percentage = Math.floor((double) failedCount / letterCount)*10;
-			return percentage >= 50;
-		}
-
-		return false;
-	}
 
 	public static boolean failCurse(String message) {
 		message = message.toLowerCase();
