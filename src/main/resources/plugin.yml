@@ -6,12 +6,19 @@ author: Matthew Salsamendi
 main: com.mcprohosting.plugins.mcph_chat_filter.MCPHChatFilter
 database: false
 
+depend: [CommonUtils]
+
 commands:
   setchatmode:
     description: Changes the level of allowed chat
     usage: /<command> <ChatMode>
+  setchatdelay:
+    description: Changes the delay that is enforced between chats.
 
 permissions:
   mcphchatfilter.setchatmode:
     description: Sets the chat mode
+    default: op
+  mcphchatfilter.setchatdelay:
+    description: Ability to set chat delay
     default: op

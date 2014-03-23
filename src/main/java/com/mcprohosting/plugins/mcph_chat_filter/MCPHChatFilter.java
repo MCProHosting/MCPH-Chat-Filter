@@ -12,11 +12,15 @@ public class MCPHChatFilter extends JavaPlugin {
 
 	private static ChatMode chatMode = ChatMode.FREE;
     private static MCPHChatFilter plugin;
+    private ChatConfig config;
 
     public void onEnable() {
         // Allow this to be accessed statically
         plugin = this;
 
+        // Init config
+        initConfig();
+        
         // Register commands
         Bukkit.getPluginCommand("setchatmode").setExecutor(new SetChatMode());
 
@@ -24,27 +28,37 @@ public class MCPHChatFilter extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
-    public void onDisable() {
-
-    }
-
     public static MCPHChatFilter getPlugin() {
 		return plugin;
 	}
 
 	public ChatMode getChatMode() {
-		return this.chatMode;
+		return chatMode;
+	}
+	
+	public ChatConfig getConfigModel() {
+		return config;
+	}
+	
+	private void initConfig() {
+        this.config = new ChatConfig(this);
+        
+        try {
+        	config.init();
+        } catch (Exception e) {
+        	getLogger().severe("Somehow, the config failed to load!");
+        }
 	}
 
 	public void setChatMode(ChatMode mode) {
-		this.chatMode = mode;
+		chatMode = mode;
 
 		boolean mute = false;
 		if (this.getChatMode().equals(ChatMode.MUTED) || this.getChatMode().equals(ChatMode.SHUTUP)) {
 			mute = true;
 		}
 
-		for (Chatter chatter : this.chatters.values()) {
+		for (Chatter chatter : chatters.values()) {
 			chatter.setMuted(mute);
 		}
 	}

@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
 
-
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
@@ -43,9 +42,11 @@ public class PlayerListener implements Listener {
 				event.setCancelled(true);
 				return;
 			}
+			
+			int secdelay = MCPHChatFilter.getPlugin().getConfigModel().chatdelay.intValue();
 
-            if (System.currentTimeMillis() - chatter.getTimeLastMessageSent() < 5* 1000) {
-                event.getPlayer().sendMessage(ChatColor.RED + "Chat is restricted to one message per person every 5 seconds. Thank you for understanding! :D");
+            if (System.currentTimeMillis() - chatter.getTimeLastMessageSent() < (secdelay * 1000)) {
+                event.getPlayer().sendMessage(ChatColor.RED + "Chat is restricted to one message per person every " + secdelay + " seconds. Thank you for understanding! :D");
                 event.setCancelled(true);
                 return;
             }
