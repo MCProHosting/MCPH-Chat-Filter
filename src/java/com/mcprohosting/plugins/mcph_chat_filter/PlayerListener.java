@@ -27,17 +27,18 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-
         Chatter chatter = MCPHChatFilter.getChatters().get(event.getPlayer().getName());
 
         if (event.getPlayer().hasPermission("mcphchatfilter.bypassall") == false) {
+			String message = event.getMessage();
+
 			if (chatter.isMuted()) {
 				event.getPlayer().sendMessage(ChatColor.RED + "Your chat is currently muted at this time to prevent spam.");
 				event.setCancelled(true);
 				return;
 			}
 
-			if (chatter.getLastMessageSent().contains("%")) {
+			if (message.contains("%")) {
 				event.getPlayer().sendMessage(ChatColor.RED + "There's currently a bug with using % signs in messages, please don't! Sorry.");
 				event.setCancelled(true);
 				return;
@@ -49,14 +50,37 @@ public class PlayerListener implements Listener {
                 return;
             }
 
-            if (chatter.getLastMessageSent().equalsIgnoreCase(event.getMessage())) {
-                event.getPlayer().sendMessage(ChatColor.RED + "You already sent that message. Perhaps you should try saying something new! ;)");
+            if (chatter.getLastMessageSent().toLowerCase().equalsIgnoreCase(message.toLowerCase())) {
+                event.getPlayer().sendMessage(ChatColor.RED + "You already sent that message. Perhaps you should try saying something new!");
                 event.setCancelled(true);
                 return;
             }
 
-			String message = event.getMessage();
-			if ((FilterUtil.failCharacterSpam(message) || FilterUtil.failCurse(message) || FilterUtil.failLink(message) || FilterUtil.failIP(message) || FilterUtil.failCaps(message))) {
+			if (FilterUtil.failCharacterSpam(message)) {
+				event.getPlayer().sendMessage(ChatColor.RED + "Your message looks like spam, please rephrase it.");
+				event.setCancelled(true);
+				return;
+			}
+
+			if (FilterUtil.failCurse(message)) {
+				event.getPlayer().sendMessage(ChatColor.RED + "Please don't use profanity!");
+				event.setCancelled(true);
+				return;
+			}
+
+			if (FilterUtil.failLink(message)) {
+				event.getPlayer().sendMessage(ChatColor.RED + "Please don't send links!");
+				event.setCancelled(true);
+				return;
+			}
+
+			if (FilterUtil.failIP(message)) {
+				event.getPlayer().sendMessage(ChatColor.RED + "Please don't advertise servers!");
+				event.setCancelled(true);
+				return;
+			}
+
+			if (FilterUtil.failCaps(message)) {
 				event.getPlayer().sendMessage(ChatColor.RED + "Your message looks like spam, please rephrase it.");
 				event.setCancelled(true);
 				return;
@@ -65,5 +89,7 @@ public class PlayerListener implements Listener {
 
         chatter.setTimeLastMessageSent(System.currentTimeMillis());
         chatter.setLastMessageSent(event.getMessage());
+
+		event.setMessage(CorrectGrammar.correctGrammar(event.getMessage()));
     }
 }

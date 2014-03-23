@@ -9,6 +9,7 @@ public class FilterUtil {
 
 		int occurances = 0;
 		char lastCharacter = 'a'; //Just start at a because I (Matt) is lazy.
+
 		for (char curCharacter : message.toCharArray()) {
 			if (curCharacter == lastCharacter) {
 				occurances++;
@@ -16,12 +17,12 @@ public class FilterUtil {
 			lastCharacter = curCharacter;
 		}
 
-		double percentage = (double) occurances / message.length();
-		return percentage >= 0.5;
+		double percentage = Math.floor((double) occurances / message.length())*10;
+		return percentage >= 50;
 	}
 
 	public static boolean failCaps(String message) {
-		if (message.length() > 3) {
+		if (message.length() >= 6) {
 			int letterCount = 0;
 			int failedCount = 0;
 
@@ -34,8 +35,8 @@ public class FilterUtil {
 				}
 			}
 
-			double percentage = (double) failedCount / letterCount;
-			return percentage >= 0.5;
+			double percentage = Math.floor((double) failedCount / letterCount)*10;
+			return percentage >= 50;
 		}
 
 		return false;
@@ -44,7 +45,7 @@ public class FilterUtil {
 	public static boolean failCurse(String message) {
 		message = message.toLowerCase();
 
-		if (message.contains("fuck") || message.contains(" sucks ") || message.contains(" dick ") || message.contains(" shit ") || message.contains("nigger") || message.contains("[Owner]")) {
+		if (message.contains("fuck") || message.contains(" sucks ") || message.contains(" dick ") || message.contains(" shit ") || message.contains("nigger") || message.contains("[Owner]") || message.contains(" cunt ") || message.contains(" ass ")) {
 			return true;
 		} else {
 			return false;
@@ -54,15 +55,13 @@ public class FilterUtil {
 	public static boolean failLink(String message) {
 		message = message.toLowerCase();
 
-		if (message.contains("http") || message.contains(".com") || message.contains(".net") || message.contains(".org") || message.contains("www.") || message.contains(".xxx")) {
-			if (!(message.contains("mcprohosting.com") || message.contains("antvenom.com"))) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
+		if (message.contains("mcprohosting.com") || message.contains("antvenom.com")) {
 			return false;
+		} else if (message.contains("http") || message.contains(".com") || message.contains(".net") || message.contains(".org") || message.contains("www.") || message.contains(".xxx")) {
+			return true;
 		}
+
+		return false;
 	}
 
 	public static boolean failIP(String message) {
