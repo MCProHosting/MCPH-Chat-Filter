@@ -90,8 +90,7 @@ public class PlayerListener implements Listener {
 
         chatter.setTimeLastMessageSent(System.currentTimeMillis());
         chatter.setLastMessageSent(event.getMessage());
-
-		event.setMessage(CorrectGrammar.correctGrammar(event.getMessage()));
-        System.out.println(event.getMessage());
+        
+	event.setMessage(CorrectGrammar.correctGrammar(event.getMessage()));
     }
 }
