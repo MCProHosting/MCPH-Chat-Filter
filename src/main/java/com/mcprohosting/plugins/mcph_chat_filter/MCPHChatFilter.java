@@ -1,11 +1,14 @@
 package com.mcprohosting.plugins.mcph_chat_filter;
 
-import com.mcprohosting.plugins.mcph_chat_filter.commands.SetChatMode;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.mcprohosting.plugins.mcph_chat_filter.commands.CommandChatDelay;
+import com.mcprohosting.plugins.mcph_chat_filter.commands.SetChatMode;
 
 public class MCPHChatFilter extends JavaPlugin {
 	private static Map<String, Chatter> chatters = new HashMap<>();
@@ -22,7 +25,11 @@ public class MCPHChatFilter extends JavaPlugin {
         initConfig();
         
         // Register commands
-        Bukkit.getPluginCommand("setchatmode").setExecutor(new SetChatMode());
+        getCommand("setchatmode").setExecutor(new SetChatMode());
+        
+        TabExecutor commandChatDelay = new CommandChatDelay(this);
+        getCommand("setchatdelay").setExecutor(commandChatDelay);
+        getCommand("setchatdelay").setTabCompleter(commandChatDelay);
 
         // Register listeners
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);

@@ -51,7 +51,8 @@ public class CommandChatDelay implements TabExecutor {
 		try {
 			int delay = Integer.parseInt(arg);
 			instance.getConfigModel().chatdelay = delay;
-			sender.sendMessage(ChatColor.GRAY + "You have set the chat delay to " + delay + " seconds.");
+			sender.sendMessage(ChatColor.GRAY + "You have set the chat delay to " +
+					ChatColor.YELLOW + delay + ChatColor.GRAY + " seconds.");
 		} catch (Exception e) {
 			sender.sendMessage(ChatColor.RED + "Delay is not a number!");
 		}
