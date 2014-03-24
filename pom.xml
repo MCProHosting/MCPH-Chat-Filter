@@ -67,6 +67,10 @@
             <id>spigotmc-snapshots</id>
             <url>http://repo.md-5.net/content/repositories/snapshots</url>
         </repository>
+        <repository>
+            <id>CommonUtils</id>
+            <url>http://ci.uicraft.com/plugin/repository/project/CommonUtils/LastSuccessful/repository/</url>
+        </repository>
     </repositories>
 
     <dependencies>
