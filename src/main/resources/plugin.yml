@@ -8,6 +8,8 @@ database: false
 
 depend: [CommonUtils]
 
+loadbefore: [zChat]
+
 commands:
   setchatmode:
     description: Changes the level of allowed chat
