@@ -2,7 +2,7 @@ package com.mcprohosting.plugins.mcph_chat_filter;
 
 import java.io.File;
 
-import com.gmail.favorlock.configuration.StrictModel;
+import com.gmail.favorlock.commonutils.configuration.StrictModel;
 
 public class ChatConfig extends StrictModel {
 
