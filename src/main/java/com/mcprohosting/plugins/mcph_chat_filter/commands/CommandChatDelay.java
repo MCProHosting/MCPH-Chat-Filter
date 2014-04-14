@@ -13,48 +13,48 @@ import com.mcprohosting.plugins.mcph_chat_filter.MCPHChatFilter;
 
 public class CommandChatDelay implements TabExecutor {
 
-	private final MCPHChatFilter instance;
-	
-	public CommandChatDelay(MCPHChatFilter instance) {
-		this.instance = instance;
-	}
-	
-	@Override
-	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-		List<String> list = new ArrayList<String>();
-		list.add("<#seconds>");
-		return list;
-	}
+    private final MCPHChatFilter instance;
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (sender instanceof Player) {
-			Player player = (Player) sender;
-			
-			if (player.isOp()) {
-				execute(player, args[0]);
-				return true;
-			} else if (player.hasPermission("mcphchatfilter.setchatdelay")) {
-				execute(player, args[0]);
-				return true;
-			} else {
-				// deny use
-				return false;
-			}
-		} else {
-			execute(sender, args[0]);
-			return true;
-		}
-	}
+    public CommandChatDelay(MCPHChatFilter instance) {
+        this.instance = instance;
+    }
 
-	private void execute(CommandSender sender, String arg) {
-		try {
-			int delay = Integer.parseInt(arg);
-			instance.getConfigModel().chatdelay = delay;
-			sender.sendMessage(ChatColor.GRAY + "You have set the chat delay to " +
-					ChatColor.YELLOW + delay + ChatColor.GRAY + " seconds.");
-		} catch (Exception e) {
-			sender.sendMessage(ChatColor.RED + "Delay is not a number!");
-		}
-	}
+    @Override
+    public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+        List<String> list = new ArrayList<String>();
+        list.add("<#seconds>");
+        return list;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+
+            if (player.isOp()) {
+                execute(player, args[0]);
+                return true;
+            } else if (player.hasPermission("mcphchatfilter.setchatdelay")) {
+                execute(player, args[0]);
+                return true;
+            } else {
+                // deny use
+                return false;
+            }
+        } else {
+            execute(sender, args[0]);
+            return true;
+        }
+    }
+
+    private void execute(CommandSender sender, String arg) {
+        try {
+            int delay = Integer.parseInt(arg);
+            instance.getConfigModel().chatdelay = delay;
+            sender.sendMessage(ChatColor.GRAY + "You have set the chat delay to " +
+                    ChatColor.YELLOW + delay + ChatColor.GRAY + " seconds.");
+        } catch (Exception e) {
+            sender.sendMessage(ChatColor.RED + "Delay is not a number!");
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package com.mcprohosting.plugins.mcph_chat_filter;
 
 public class Chatter {
-	private boolean muted;
+    private boolean muted;
     private long timeLastMessageSent;
     private String lastMessageSent;
 
@@ -9,13 +9,13 @@ public class Chatter {
         timeLastMessageSent = 0;
         lastMessageSent = "";
 
-		if (MCPHChatFilter.getPlugin().getChatMode().equals(ChatMode.MUTED)) {
-			this.muted = true;
-		} else if (MCPHChatFilter.getPlugin().getChatMode().equals(ChatMode.SHUTUP)) {
-			this.muted = true;
-		} else if (MCPHChatFilter.getPlugin().getChatMode().equals(ChatMode.FREE)) {
-			this.muted = false;
-		}
+        if (MCPHChatFilter.getPlugin().getChatMode().equals(ChatMode.MUTED)) {
+            this.muted = true;
+        } else if (MCPHChatFilter.getPlugin().getChatMode().equals(ChatMode.SHUTUP)) {
+            this.muted = true;
+        } else if (MCPHChatFilter.getPlugin().getChatMode().equals(ChatMode.FREE)) {
+            this.muted = false;
+        }
     }
 
     public long getTimeLastMessageSent() {
@@ -34,12 +34,12 @@ public class Chatter {
         lastMessageSent = message;
     }
 
-	public boolean isMuted() {
-		return this.muted;
-	}
+    public boolean isMuted() {
+        return this.muted;
+    }
 
-	public void setMuted(boolean muted) {
-		this.muted = muted;
-	}
+    public void setMuted(boolean muted) {
+        this.muted = muted;
+    }
 
 }

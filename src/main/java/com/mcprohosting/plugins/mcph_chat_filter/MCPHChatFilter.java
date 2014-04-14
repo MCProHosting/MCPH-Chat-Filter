@@ -11,9 +11,9 @@ import com.mcprohosting.plugins.mcph_chat_filter.commands.CommandChatDelay;
 import com.mcprohosting.plugins.mcph_chat_filter.commands.SetChatMode;
 
 public class MCPHChatFilter extends JavaPlugin {
-	private static Map<String, Chatter> chatters = new HashMap<>();
+    private static Map<String, Chatter> chatters = new HashMap<>();
 
-	private static ChatMode chatMode = ChatMode.FREE;
+    private static ChatMode chatMode = ChatMode.FREE;
     private static MCPHChatFilter plugin;
     private ChatConfig config;
 
@@ -23,10 +23,10 @@ public class MCPHChatFilter extends JavaPlugin {
 
         // Init config
         initConfig();
-        
+
         // Register commands
         getCommand("setchatmode").setExecutor(new SetChatMode());
-        
+
         TabExecutor commandChatDelay = new CommandChatDelay(this);
         getCommand("setchatdelay").setExecutor(commandChatDelay);
         getCommand("setchatdelay").setTabCompleter(commandChatDelay);
@@ -36,41 +36,41 @@ public class MCPHChatFilter extends JavaPlugin {
     }
 
     public static MCPHChatFilter getPlugin() {
-		return plugin;
-	}
+        return plugin;
+    }
 
-	public ChatMode getChatMode() {
-		return chatMode;
-	}
-	
-	public ChatConfig getConfigModel() {
-		return config;
-	}
-	
-	private void initConfig() {
+    public ChatMode getChatMode() {
+        return chatMode;
+    }
+
+    public ChatConfig getConfigModel() {
+        return config;
+    }
+
+    private void initConfig() {
         this.config = new ChatConfig(this);
-        
+
         try {
-        	config.init();
+            config.init();
         } catch (Exception e) {
-        	getLogger().severe("Somehow, the config failed to load!");
+            getLogger().severe("Somehow, the config failed to load!");
         }
-	}
+    }
 
-	public void setChatMode(ChatMode mode) {
-		chatMode = mode;
+    public void setChatMode(ChatMode mode) {
+        chatMode = mode;
 
-		boolean mute = false;
-		if (this.getChatMode().equals(ChatMode.MUTED) || this.getChatMode().equals(ChatMode.SHUTUP)) {
-			mute = true;
-		}
+        boolean mute = false;
+        if (this.getChatMode().equals(ChatMode.MUTED) || this.getChatMode().equals(ChatMode.SHUTUP)) {
+            mute = true;
+        }
 
-		for (Chatter chatter : chatters.values()) {
-			chatter.setMuted(mute);
-		}
-	}
+        for (Chatter chatter : chatters.values()) {
+            chatter.setMuted(mute);
+        }
+    }
 
-	public static Map<String, Chatter> getChatters() {
-		return chatters;
-	}
+    public static Map<String, Chatter> getChatters() {
+        return chatters;
+    }
 }

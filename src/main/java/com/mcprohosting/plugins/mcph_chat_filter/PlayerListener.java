@@ -29,21 +29,21 @@ public class PlayerListener implements Listener {
         Chatter chatter = MCPHChatFilter.getChatters().get(event.getPlayer().getName());
 
         if (event.getPlayer().hasPermission("mcphchatfilter.bypassall") == false) {
-			String message = event.getMessage();
+            String message = event.getMessage();
 
-			if (chatter.isMuted()) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Your chat is currently muted at this time to prevent spam.");
-				event.setCancelled(true);
-				return;
-			}
+            if (chatter.isMuted()) {
+                event.getPlayer().sendMessage(ChatColor.RED + "Your chat is currently muted at this time to prevent spam.");
+                event.setCancelled(true);
+                return;
+            }
 
-			if (message.contains("%")) {
-				event.getPlayer().sendMessage(ChatColor.RED + "There's currently a bug with using % signs in messages, please don't! Sorry.");
-				event.setCancelled(true);
-				return;
-			}
-			
-			int secdelay = MCPHChatFilter.getPlugin().getConfigModel().chatdelay.intValue();
+            if (message.contains("%")) {
+                event.getPlayer().sendMessage(ChatColor.RED + "There's currently a bug with using % signs in messages, please don't! Sorry.");
+                event.setCancelled(true);
+                return;
+            }
+
+            int secdelay = MCPHChatFilter.getPlugin().getConfigModel().chatdelay.intValue();
 
             if (System.currentTimeMillis() - chatter.getTimeLastMessageSent() < (secdelay * 1000)) {
                 event.getPlayer().sendMessage(ChatColor.RED + "Chat is restricted to one message per person every " + secdelay + " seconds. Thank you for understanding! :D");
@@ -57,34 +57,34 @@ public class PlayerListener implements Listener {
                 return;
             }
 
-			if (FilterUtil.failCharacterSpam(message)) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Your message looks like spam, please rephrase it.");
-				event.setCancelled(true);
-				return;
-			}
+            if (FilterUtil.failCharacterSpam(message)) {
+                event.getPlayer().sendMessage(ChatColor.RED + "Your message looks like spam, please rephrase it.");
+                event.setCancelled(true);
+                return;
+            }
 
-			if (FilterUtil.failCurse(message)) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Please don't use profanity!");
-				event.setCancelled(true);
-				return;
-			}
+            if (FilterUtil.failCurse(message)) {
+                event.getPlayer().sendMessage(ChatColor.RED + "Please don't use profanity!");
+                event.setCancelled(true);
+                return;
+            }
 
-			if (FilterUtil.failLink(message)) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Please don't send links!");
-				event.setCancelled(true);
-				return;
-			}
+            if (FilterUtil.failLink(message)) {
+                event.getPlayer().sendMessage(ChatColor.RED + "Please don't send links!");
+                event.setCancelled(true);
+                return;
+            }
 
-			if (FilterUtil.failIP(message)) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Please don't advertise servers!");
-				event.setCancelled(true);
-				return;
-			}
+            if (FilterUtil.failIP(message)) {
+                event.getPlayer().sendMessage(ChatColor.RED + "Please don't advertise servers!");
+                event.setCancelled(true);
+                return;
+            }
         }
 
         chatter.setTimeLastMessageSent(System.currentTimeMillis());
         chatter.setLastMessageSent(event.getMessage());
-        
-	event.setMessage(CorrectGrammar.correctGrammar(event.getMessage()));
+
+        event.setMessage(CorrectGrammar.correctGrammar(event.getMessage()));
     }
 }
