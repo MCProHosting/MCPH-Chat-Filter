@@ -31,6 +31,7 @@
     </profiles>
 
     <build>
+        <finalName>${artifactId}</finalName>
         <defaultGoal>clean install</defaultGoal>
         <resources>
             <resource>
